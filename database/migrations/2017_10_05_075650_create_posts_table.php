@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->string('title');
-            $table->mediumText('content');
+            $table->mediumText('body');
             $table->boolean('pending')->default(true);
 
             $table->timestamps();
