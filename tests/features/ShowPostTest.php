@@ -1,7 +1,5 @@
 <?php
 
-use App\Post;
-
 class ShowPostTest extends FeatureTestCase
 {
     function test_a_user_can_see_the_post_details()
@@ -11,30 +9,25 @@ class ShowPostTest extends FeatureTestCase
             'name' => 'Alejandro Borrell'
         ]);
 
-        $post = factory(Post::class)->make([
+        $post = $this->createPost([
             'title' => 'Como instalar Laravel',
-            'body' => 'Este es el contenido del post'
+            'body' => 'Este es el contenido del post',
+            'user_id' => $user->id
         ]);
-
-        $user->posts()->save($post);
 
         // When
         $this->visit($post->url)
             ->seeInElement('h1', $post->title)
             ->see($post->body)
-            ->see($user->name);
+            ->see('Alejandro Borrell');
     }
 
     function test_old_urls_are_redirected()
     {
         // Having
-        $user = $this->defaultUser();
-
-        $post = factory(Post::class)->make([
+        $post = $this->createPost([
             'title' => 'Old title'
         ]);
-
-        $user->posts()->save($post);
 
         $url = $post->url;
 
