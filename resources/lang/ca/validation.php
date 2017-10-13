@@ -141,6 +141,7 @@ return [
         'title'                 => 'títol',
         'body'                  => 'contingut',
         'description'           => 'descripció',
+        'comment'               => 'comentari',
         'excerpt'               => 'extracte',
         'date'                  => 'data',
         'time'                  => 'hora',
