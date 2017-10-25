@@ -10,6 +10,10 @@ class Post extends Model
     protected $fillable = ['title', 'body'];
     //protected $guarded = ['_token'];
 
+    protected $casts = [
+        'pending' => 'boolean'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
