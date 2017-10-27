@@ -27,7 +27,7 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
-        'pending' => $faker->boolean(),
+        'pending' => true, //$faker->boolean(),
         // Se ejecuta solo en caso de no "forzar" el asignamiento de un user_id
         'user_id' => function () {
             return factory(\App\User::class)->create()->id;
