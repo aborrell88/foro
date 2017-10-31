@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class Post extends Model
 {
@@ -39,6 +40,11 @@ class Post extends Model
     public function getUrlAttribute()
     {
         return route('posts.show', [$this->id, $this->slug]);
+    }
+
+    public function getSafeHtmlBodyAttribute()
+    {
+        return Markdown::convertToHtml(e($this->body));
     }
 
 }
