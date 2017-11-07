@@ -147,6 +147,7 @@ return [
         'time'                  => 'hora',
         'subject'               => 'assumpte',
         'message'               => 'missatge',
+        'category_id'           => 'categoría',
     ],
 
 ];

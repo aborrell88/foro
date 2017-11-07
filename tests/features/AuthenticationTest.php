@@ -2,6 +2,7 @@
 
 use App\Token;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationTest extends FeatureTestCase
 {

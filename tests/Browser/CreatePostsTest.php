@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Category;
 use App\Post;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -17,11 +18,14 @@ class CreatePostsTest extends DuskTestCase
     {
         $user = $this->defaultUser();
 
-        $this->browse(function ($browser) use ($user) {
+        $category = factory(Category::class)->create();
+
+        $this->browse(function ($browser) use ($user, $category) {
             $browser->loginAs($user)
                 ->visitRoute('posts.create')
                 ->type('title', $this->title)
                 ->type('body', $this->body)
+                ->select('category_id', $category->id)
                 ->press('Publicar')
                 ->assertPathIs('/posts/1-esta-es-una-pregunta');
         });

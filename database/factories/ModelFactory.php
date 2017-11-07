@@ -31,6 +31,9 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
         // Se ejecuta solo en caso de no "forzar" el asignamiento de un user_id
         'user_id' => function () {
             return factory(\App\User::class)->create()->id;
+        },
+        'category_id' => function () {
+            return factory(\App\Category::class)->create()->id;
         }
     ];
 });
@@ -44,7 +47,16 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
         },
         // Se ejecuta solo en caso de no "forzar" el asignamiento de un user_id
         'user_id' => function () {
-        return factory(\App\User::class)->create()->id;
-    }
+            return factory(\App\User::class)->create()->id;
+        }
+    ];
+});
+
+$factory->define(\App\Category::class, function (Faker\Generator $faker) {
+    $name = $faker->unique()->sentence;
+
+    return [
+        'name' => $name,
+        'slug' => str_slug($name),
     ];
 });
