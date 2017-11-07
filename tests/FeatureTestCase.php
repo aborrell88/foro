@@ -1,12 +1,14 @@
 <?php
 
+use Tests\CreatesApplication;
+use Tests\TestsHelper;
 use \Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FeatureTestCase extends TestCase
+class FeatureTestCase extends \Laravel\BrowserKitTesting\TestCase
 {
     // En lugar de añadir o eliminar migraciones usando "use DatabaseMigrations" que es más lento,
     // elimina los cambios SQL que se han producido en la Base de datos durante el TEST
-    use DatabaseTransactions;
+    use CreatesApplication, TestsHelper, DatabaseTransactions;
 
     public function seeErrors(array $fields)
     {
@@ -17,6 +19,5 @@ class FeatureTestCase extends TestCase
                 );
             }
         }
-
     }
 }
