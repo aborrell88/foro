@@ -74,7 +74,7 @@ return [
             'engine' => null,
         ],
 
-        'tests_dusk' => [
+        'mysql_dusk' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),

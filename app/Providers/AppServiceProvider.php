@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 use Laravel\Dusk\DuskServiceProvider;
+use Illuminate\Support\ServiceProvider;
+use App\Http\Composers\PostSidebarComposer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +30,14 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing')) {
             $this->app->register(DuskServiceProvider::class);
         }
+
+        Carbon::setLocale(config('app.locale'));
+
+        $this->registerViewComposers();
+    }
+
+    protected function registerViewComposers()
+    {
+        View::composer('posts.sidebar', PostSidebarComposer::class);
     }
 }

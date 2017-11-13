@@ -57,6 +57,29 @@ class Post extends Model
         return Markdown::convertToHtml(e($this->body));
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    // Scopes
+    //------------------------------------------------------------------------------------------------------------------
+    public function scopeCategory($query, Category $category)
+    {
+        if ($category->exists) {
+            $query->where('category_id', $category->id);
+        }
+    }
 
+    public function scopePending($query)
+    {
+        $query->where('pending', true);
+    }
+
+    public function scopeCompleted($query)
+    {
+        $query->where('pending', false);
+    }
+
+    public function scopeByUser($query, User $user)
+    {
+        $query->where('user_id', $user->id);
+    }
 
 }

@@ -46,6 +46,7 @@ class CreatePostsTest extends DuskTestCase
             'user_id' => $user->id,
             'post_id' => $post->id
         ]);
+
     }
 
     public function test_creating_a_post_requires_authentication()
