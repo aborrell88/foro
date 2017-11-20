@@ -13,6 +13,19 @@ Route::post('posts/create', [
     'as' => 'posts.store'
 ]);
 
+// Votes
+Route::post('posts/{post}-{slug}/upvote', [
+    'uses' => 'VotePostController@upvote'
+]);
+
+Route::post('posts/{post}-{slug}/downvote', [
+    'uses' => 'VotePostController@downvote'
+]);
+
+Route::delete('posts/{post}-{slug}/vote', [
+    'uses' => 'VotePostController@undoVote'
+]);
+
 // Comments
 Route::post('posts/{post}/comment', [
    'uses' => 'CommentController@store',

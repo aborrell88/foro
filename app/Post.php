@@ -9,10 +9,10 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 class Post extends Model
 {
     protected $fillable = ['title', 'body', 'category_id'];
-    //protected $guarded = ['_token'];
 
     protected $casts = [
-        'pending' => 'boolean'
+        'pending' => 'boolean',
+        'score' => 'integer',
     ];
 
     public function user()
@@ -29,7 +29,12 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
-
+/*
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+*/
     public function subscribers()
     {
         return $this->belongsToMany(User::class, 'subscriptions');
