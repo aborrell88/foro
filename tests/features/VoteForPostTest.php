@@ -1,6 +1,6 @@
 <?php
 
-use App\Repositories\VoteRepository;
+use App\Vote;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VoteForPostTest extends TestCase
@@ -14,14 +14,15 @@ class VoteForPostTest extends TestCase
         $post = $this->createPost();
 
         // Petición tipo POST
-        $this->postJson($post->url . '/upvote')
+        $this->postJson("posts/{$post->id}/vote/1")
             ->assertSuccessful()
             ->assertJson([
                 'new_score' => 1
             ]);
 
         $this->assertDatabaseHas('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => \App\Post::class,
             'user_id' => $user->id,
             'vote' => 1,
         ]);
@@ -36,14 +37,15 @@ class VoteForPostTest extends TestCase
         $post = $this->createPost();
 
         // Petición tipo POST
-        $this->postJson($post->url . '/downvote')
+        $this->postJson("posts/{$post->id}/vote/-1")
             ->assertSuccessful()
             ->assertJson([
                 'new_score' => -1
             ]);
 
         $this->assertDatabaseHas('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => \App\Post::class,
             'user_id' => $user->id,
             'vote' => -1,
         ]);
@@ -57,17 +59,18 @@ class VoteForPostTest extends TestCase
 
         $post = $this->createPost();
 
-        app(VoteRepository::class)->upvote($post);
+        $post->upvote();
 
         // Petición tipo POST
-        $this->deleteJson($post->url . '/vote')
+        $this->deleteJson("posts/{$post->id}/vote")
             ->assertSuccessful()
             ->assertJson([
                 'new_score' => 0
             ]);
 
         $this->assertDatabaseMissing('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => \App\Post::class,
             'user_id' => $user->id
         ]);
 
@@ -83,12 +86,13 @@ class VoteForPostTest extends TestCase
 
         $post = $this->createPost();
 
-        $this->postJson($post->url . '/upvote')
+        $this->postJson("posts/{$post->id}/vote/1")
             ->assertStatus(401)
             ->assertJson(['error' => 'Unauthenticated.']);
 
         $this->assertDatabaseMissing('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => \App\Post::class,
             'user_id' => $user->id
         ]);
 

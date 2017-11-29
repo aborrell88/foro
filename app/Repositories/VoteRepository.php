@@ -1,4 +1,5 @@
 <?php
+/* Alternativa al uso de Traits
 
 namespace App\Repositories;
 use App\{Post, Vote};
@@ -27,17 +28,16 @@ class VoteRepository
 
     public function undoVote(Post $post)
     {
-        Vote::where([
-            'post_id' => $post->id,
-            'user_id' => auth()->id(),
-        ])->delete();
+        $post->votes()
+            ->where('user_id', auth()->id())
+            ->delete();
 
         $this->refreshPostScore($post);
     }
 
     protected function refreshPostScore(Post $post)
     {
-        $post->score = Vote::where('post_id', $post->id)->sum('vote');
+        $post->score = $post->votes()->sum('vote');
 
         $post->save();
     }

@@ -8,6 +8,8 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 
 class Post extends Model
 {
+    use CanBeVoted;
+
     protected $fillable = ['title', 'body', 'category_id'];
 
     protected $casts = [
@@ -29,12 +31,7 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
-/*
-    public function votes()
-    {
-        return $this->hasMany(Vote::class);
-    }
-*/
+
     public function subscribers()
     {
         return $this->belongsToMany(User::class, 'subscriptions');
@@ -86,5 +83,4 @@ class Post extends Model
     {
         $query->where('user_id', $user->id);
     }
-
 }

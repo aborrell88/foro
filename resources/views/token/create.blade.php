@@ -10,18 +10,18 @@
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('token') }}">
                             {{ csrf_field() }}
 
-                            {{ Alert::render() }}
+                            {!! Alert::render() !!}
 
                             {!! Field::email('email') !!}
 
                             <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
+                                <div class="col-md-8 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
                                         Solicitar token
                                     </button>
 
                                     <a class="btn btn-link" href="{{ url('/password/reset') }}">
-                                        Forgot Yout Password?
+                                        Forgot Your Password?
                                     </a>
                                 </div>
                             </div>

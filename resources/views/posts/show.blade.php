@@ -20,16 +20,18 @@
                 @endif
             </p>
 
+            {{ $post->vote_component }}
+
             {!! $post->safe_html_body !!}
 
             @if (auth()->check())
                 @if (!auth()->user()->isSubscribedTo($post))
                     {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
-                    <button type="submit">Suscribirse al post</button>
+                    <button type="submit" class="btn btn-default">Suscribirse al post</button>
                     {!! Form::close() !!}
                 @else
                     {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
-                    <button type="submit">Desuscribirse del post</button>
+                    <button type="submit" class="btn btn-default">Desuscribirse del post</button>
                     {!! Form::close() !!}
                 @endif
             @endif
@@ -41,10 +43,12 @@
             {{-- todo: Paginate comments! --}}
 
             @foreach($post->latestComments as $comment)
-                <article class="{{ $comment->answer ? 'answer' : '' }}">
+                <article class="comment {{ $comment->answer ? 'answer' : '' }}">
                     {{-- todo: support markdown in the comments as well! --}}
 
                     {{ $comment->comment }}
+
+                    {{ $comment->vote_component }}
 
                     @if(Gate::allows('accept', $comment) && !$comment->answer)
                         {!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}
