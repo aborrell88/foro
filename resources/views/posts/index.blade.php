@@ -4,13 +4,16 @@
     <div class="row">
         <div class="col-md-12">
             <h1>
-                {{ $category->exists ? 'Posts de ' . $category->name : 'Posts' }}
+                {{ optional($category)->exists ? 'Posts de ' . $category->name : 'Posts' }}
             </h1>
         </div>
     </div>
     <div class="row">
         @include('posts.sidebar')
         <div class="col-md-10">
+
+            {!! Alert::render() !!}
+
             {!! Form::open(['method' => 'get', 'class' => 'form form-inline']) !!}
                 {!! Form::select(
                     'orden',
@@ -29,8 +32,7 @@
             @endforeach
             --}}
 
-            {{-- appends() nos permite cambiar de página sin perder el filtro 'orden' --}}
-            {{ $posts->appends(request()->intersect(['orden']))->render() }}
+            {{ $posts->render() }}
 
         </div>
     </div>

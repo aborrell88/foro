@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->registerViewComposers();
     }
 
     /**
@@ -33,7 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
         Carbon::setLocale(config('app.locale'));
 
-        $this->registerViewComposers();
+        Request::macro('intersect', function ($data) {
+            return array_filter($this->only($data));
+        });
     }
 
     protected function registerViewComposers()

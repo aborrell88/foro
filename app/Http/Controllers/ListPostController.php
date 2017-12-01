@@ -17,8 +17,8 @@ class ListPostController extends Controller
             ->category($category)
             ->scopes($this->getRouteScope($request))
             ->orderBy($orderColumn, $orderDirection)
-            //->appends($request->intersect(['orden']))
-            ->paginate();
+            ->paginate()
+            ->appends($request->intersect(['orden']));
 
         return view('posts.index', compact('posts', 'category'));
     }
